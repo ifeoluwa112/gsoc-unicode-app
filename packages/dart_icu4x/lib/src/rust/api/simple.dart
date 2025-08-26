@@ -13,16 +13,11 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 ///
 /// - `search`: optional lowercased substring to match against multiple fields.
 /// - `offset`: number of matching characters to skip (start index, inclusive).
-/// - `limit`: exclusive end index; the function returns at most `limit - offset` items.
-List<UnicodeCharProperties> getUnicodeCharProperties({
-  String? search,
-  required BigInt offset,
-  required BigInt limit,
-}) => RustLib.instance.api.crateApiSimpleGetUnicodeCharProperties(
-  search: search,
-  offset: offset,
-  limit: limit,
-);
+/// - `limit`: maximum number of items to return (page size).
+List<UnicodeCharProperties> getUnicodeCharProperties(
+        {String? search, required BigInt offset, required BigInt limit}) =>
+    RustLib.instance.api.crateApiSimpleGetUnicodeCharProperties(
+        search: search, offset: offset, limit: limit);
 
 /// Return the script long name for a single character.
 ///
@@ -35,9 +30,8 @@ String getScriptForChar({required String ch}) =>
 /// If the input is not exactly one Unicode scalar value, returns `has_mapping = false`
 /// with the original text unchanged.
 CaseMappingResult getCharacterCaseMapping({required String character}) =>
-    RustLib.instance.api.crateApiSimpleGetCharacterCaseMapping(
-      character: character,
-    );
+    RustLib.instance.api
+        .crateApiSimpleGetCharacterCaseMapping(character: character);
 
 class CaseMappingResult {
   final String original;

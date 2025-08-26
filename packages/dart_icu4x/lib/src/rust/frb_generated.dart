@@ -35,8 +35,12 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 
   /// Initialize flutter_rust_bridge in mock mode.
   /// No libraries for FFI are loaded.
-  static void initMock({required RustLibApi api}) {
-    instance.initMockImpl(api: api);
+  static void initMock({
+    required RustLibApi api,
+  }) {
+    instance.initMockImpl(
+      api: api,
+    );
   }
 
   /// Dispose flutter_rust_bridge
@@ -70,24 +74,20 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
-        stem: 'dart_icu4x',
-        ioDirectory: 'rust/target/release/',
-        webPrefix: 'pkg/',
-      );
+    stem: 'dart_icu4x',
+    ioDirectory: 'rust/target/release/',
+    webPrefix: 'pkg/',
+  );
 }
 
 abstract class RustLibApi extends BaseApi {
-  CaseMappingResult crateApiSimpleGetCharacterCaseMapping({
-    required String character,
-  });
+  CaseMappingResult crateApiSimpleGetCharacterCaseMapping(
+      {required String character});
 
   String crateApiSimpleGetScriptForChar({required String ch});
 
-  List<UnicodeCharProperties> crateApiSimpleGetUnicodeCharProperties({
-    String? search,
-    required BigInt offset,
-    required BigInt limit,
-  });
+  List<UnicodeCharProperties> crateApiSimpleGetUnicodeCharProperties(
+      {String? search, required BigInt offset, required BigInt limit});
 
   Future<void> crateApiSimpleInitApp();
 }
@@ -101,25 +101,22 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   });
 
   @override
-  CaseMappingResult crateApiSimpleGetCharacterCaseMapping({
-    required String character,
-  }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_String(character, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 1)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_case_mapping_result,
-          decodeErrorData: null,
-        ),
-        constMeta: kCrateApiSimpleGetCharacterCaseMappingConstMeta,
-        argValues: [character],
-        apiImpl: this,
+  CaseMappingResult crateApiSimpleGetCharacterCaseMapping(
+      {required String character}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_String(character, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 1)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_case_mapping_result,
+        decodeErrorData: null,
       ),
-    );
+      constMeta: kCrateApiSimpleGetCharacterCaseMappingConstMeta,
+      argValues: [character],
+      apiImpl: this,
+    ));
   }
 
   TaskConstMeta get kCrateApiSimpleGetCharacterCaseMappingConstMeta =>
@@ -130,51 +127,47 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @override
   String crateApiSimpleGetScriptForChar({required String ch}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Char(ch, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 2)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_String,
-          decodeErrorData: null,
-        ),
-        constMeta: kCrateApiSimpleGetScriptForCharConstMeta,
-        argValues: [ch],
-        apiImpl: this,
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Char(ch, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 2)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_String,
+        decodeErrorData: null,
       ),
-    );
+      constMeta: kCrateApiSimpleGetScriptForCharConstMeta,
+      argValues: [ch],
+      apiImpl: this,
+    ));
   }
 
   TaskConstMeta get kCrateApiSimpleGetScriptForCharConstMeta =>
-      const TaskConstMeta(debugName: "get_script_for_char", argNames: ["ch"]);
+      const TaskConstMeta(
+        debugName: "get_script_for_char",
+        argNames: ["ch"],
+      );
 
   @override
-  List<UnicodeCharProperties> crateApiSimpleGetUnicodeCharProperties({
-    String? search,
-    required BigInt offset,
-    required BigInt limit,
-  }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_opt_String(search, serializer);
-          sse_encode_usize(offset, serializer);
-          sse_encode_usize(limit, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 3)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_list_unicode_char_properties,
-          decodeErrorData: null,
-        ),
-        constMeta: kCrateApiSimpleGetUnicodeCharPropertiesConstMeta,
-        argValues: [search, offset, limit],
-        apiImpl: this,
+  List<UnicodeCharProperties> crateApiSimpleGetUnicodeCharProperties(
+      {String? search, required BigInt offset, required BigInt limit}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_opt_String(search, serializer);
+        sse_encode_usize(offset, serializer);
+        sse_encode_usize(limit, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 3)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_list_unicode_char_properties,
+        decodeErrorData: null,
       ),
-    );
+      constMeta: kCrateApiSimpleGetUnicodeCharPropertiesConstMeta,
+      argValues: [search, offset, limit],
+      apiImpl: this,
+    ));
   }
 
   TaskConstMeta get kCrateApiSimpleGetUnicodeCharPropertiesConstMeta =>
@@ -185,30 +178,26 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @override
   Future<void> crateApiSimpleInitApp() {
-    return handler.executeNormal(
-      NormalTask(
-        callFfi: (port_) {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          pdeCallFfi(
-            generalizedFrbRustBinding,
-            serializer,
-            funcId: 4,
-            port: port_,
-          );
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: null,
-        ),
-        constMeta: kCrateApiSimpleInitAppConstMeta,
-        argValues: [],
-        apiImpl: this,
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 4, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
       ),
-    );
+      constMeta: kCrateApiSimpleInitAppConstMeta,
+      argValues: [],
+      apiImpl: this,
+    ));
   }
 
-  TaskConstMeta get kCrateApiSimpleInitAppConstMeta =>
-      const TaskConstMeta(debugName: "init_app", argNames: []);
+  TaskConstMeta get kCrateApiSimpleInitAppConstMeta => const TaskConstMeta(
+        debugName: "init_app",
+        argNames: [],
+      );
 
   @protected
   String dco_decode_Char(dynamic raw) {
@@ -255,8 +244,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   List<UnicodeCharProperties> dco_decode_list_unicode_char_properties(
-    dynamic raw,
-  ) {
+      dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>)
         .map(dco_decode_unicode_char_properties)
@@ -364,17 +352,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   CaseMappingResult sse_decode_case_mapping_result(
-    SseDeserializer deserializer,
-  ) {
+      SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_original = sse_decode_String(deserializer);
     var var_mapped = sse_decode_String(deserializer);
     var var_hasMapping = sse_decode_bool(deserializer);
     return CaseMappingResult(
-      original: var_original,
-      mapped: var_mapped,
-      hasMapping: var_hasMapping,
-    );
+        original: var_original, mapped: var_mapped, hasMapping: var_hasMapping);
   }
 
   @protected
@@ -386,8 +370,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   List<UnicodeCharProperties> sse_decode_list_unicode_char_properties(
-    SseDeserializer deserializer,
-  ) {
+      SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
     var len_ = sse_decode_i_32(deserializer);
@@ -434,8 +417,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   UnicodeCharProperties sse_decode_unicode_char_properties(
-    SseDeserializer deserializer,
-  ) {
+      SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_character = sse_decode_String(deserializer);
     var var_codePoint = sse_decode_u_32(deserializer);
@@ -465,34 +447,33 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var var_isEmojiModifier = sse_decode_opt_box_autoadd_bool(deserializer);
     var var_isEmojiModifierBase = sse_decode_opt_box_autoadd_bool(deserializer);
     return UnicodeCharProperties(
-      character: var_character,
-      codePoint: var_codePoint,
-      name: var_name,
-      unicodeValue: var_unicodeValue,
-      generalCategory: var_generalCategory,
-      block: var_block,
-      plane: var_plane,
-      script: var_script,
-      bidiClass: var_bidiClass,
-      eastAsianWidth: var_eastAsianWidth,
-      lineBreak: var_lineBreak,
-      wordBreak: var_wordBreak,
-      sentenceBreak: var_sentenceBreak,
-      graphemeClusterBreak: var_graphemeClusterBreak,
-      hangulSyllableType: var_hangulSyllableType,
-      joiningType: var_joiningType,
-      isAlphabetic: var_isAlphabetic,
-      isUppercase: var_isUppercase,
-      isLowercase: var_isLowercase,
-      isWhiteSpace: var_isWhiteSpace,
-      isMath: var_isMath,
-      isDash: var_isDash,
-      isDiacritic: var_isDiacritic,
-      isEmoji: var_isEmoji,
-      isEmojiPresentation: var_isEmojiPresentation,
-      isEmojiModifier: var_isEmojiModifier,
-      isEmojiModifierBase: var_isEmojiModifierBase,
-    );
+        character: var_character,
+        codePoint: var_codePoint,
+        name: var_name,
+        unicodeValue: var_unicodeValue,
+        generalCategory: var_generalCategory,
+        block: var_block,
+        plane: var_plane,
+        script: var_script,
+        bidiClass: var_bidiClass,
+        eastAsianWidth: var_eastAsianWidth,
+        lineBreak: var_lineBreak,
+        wordBreak: var_wordBreak,
+        sentenceBreak: var_sentenceBreak,
+        graphemeClusterBreak: var_graphemeClusterBreak,
+        hangulSyllableType: var_hangulSyllableType,
+        joiningType: var_joiningType,
+        isAlphabetic: var_isAlphabetic,
+        isUppercase: var_isUppercase,
+        isLowercase: var_isLowercase,
+        isWhiteSpace: var_isWhiteSpace,
+        isMath: var_isMath,
+        isDash: var_isDash,
+        isDiacritic: var_isDiacritic,
+        isEmoji: var_isEmoji,
+        isEmojiPresentation: var_isEmojiPresentation,
+        isEmojiModifier: var_isEmojiModifier,
+        isEmojiModifierBase: var_isEmojiModifierBase);
   }
 
   @protected
@@ -538,9 +519,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void sse_encode_case_mapping_result(
-    CaseMappingResult self,
-    SseSerializer serializer,
-  ) {
+      CaseMappingResult self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_String(self.original, serializer);
     sse_encode_String(self.mapped, serializer);
@@ -549,9 +528,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void sse_encode_list_prim_u_8_strict(
-    Uint8List self,
-    SseSerializer serializer,
-  ) {
+      Uint8List self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.length, serializer);
     serializer.buffer.putUint8List(self);
@@ -559,9 +536,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void sse_encode_list_unicode_char_properties(
-    List<UnicodeCharProperties> self,
-    SseSerializer serializer,
-  ) {
+      List<UnicodeCharProperties> self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.length, serializer);
     for (final item in self) {
@@ -603,9 +578,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void sse_encode_unicode_char_properties(
-    UnicodeCharProperties self,
-    SseSerializer serializer,
-  ) {
+      UnicodeCharProperties self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_String(self.character, serializer);
     sse_encode_u_32(self.codePoint, serializer);

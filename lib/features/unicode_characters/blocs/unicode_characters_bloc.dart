@@ -41,8 +41,8 @@ class UnicodeCharPropertiesBloc
       );
       final charProperties = getUnicodeCharProperties(
         search: event.searchQuery,
-        offset: BigInt.from(50 * (event.page - 1)),
-        limit: BigInt.from(50 * event.page),
+        offset: BigInt.from(state.characters.length),
+        limit: BigInt.from(50),
       );
       emit(
         _Loaded(

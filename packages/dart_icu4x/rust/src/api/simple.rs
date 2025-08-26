@@ -231,7 +231,6 @@ fn safe_name(c: char) -> String {
 /// Returns true if `search` is None or if any field contains the query.
 fn matches_search(c: char, search: &Option<String>) -> bool {
     if let Some(ref s) = search {
-        let s = s.to_lowercase();
         let char_str = c.to_string().to_lowercase();
         let code_point_str = (c as u32).to_string();
         let unicode_value = format!("U+{:04X}", c as u32).to_lowercase();
@@ -240,13 +239,13 @@ fn matches_search(c: char, search: &Option<String>) -> bool {
         let script_short = get_script().get(c).short_name().to_lowercase();
         let name_str = safe_name(c).to_lowercase();
 
-        char_str.contains(&s)
-            || code_point_str.contains(&s)
-            || unicode_value.contains(&s)
-            || general_category.contains(&s)
-            || script_long.contains(&s)
-            || script_short.contains(&s)
-            || name_str.contains(&s)
+        char_str.contains(s)
+            || code_point_str.contains(s)
+            || unicode_value.contains(s)
+            || general_category.contains(s)
+            || script_long.contains(s)
+            || script_short.contains(s)
+            || name_str.contains(s)
     } else {
         true
     }
@@ -293,18 +292,18 @@ fn map_to_properties(c: char) -> UnicodeCharProperties {
 ///
 /// - `search`: optional lowercased substring to match against multiple fields.
 /// - `offset`: number of matching characters to skip (start index, inclusive).
-/// - `limit`: exclusive end index; the function returns at most `limit - offset` items.
+/// - `limit`: maximum number of items to return (page size).
 pub fn get_unicode_char_properties(
     search: Option<String>,
     offset: usize,
     limit: usize,
 ) -> Vec<UnicodeCharProperties> {
-    let page_len = limit.saturating_sub(offset);
+    let lowercased_search = search.map(|s| s.to_lowercase());
     CodePointInversionList::all()
         .iter_chars()
-        .filter(|&c| matches_search(c, &search))
+        .filter(|&c| matches_search(c, &lowercased_search))
         .skip(offset)
-        .take(page_len)
+        .take(limit)
         .map(map_to_properties)
         .collect()
 }
@@ -358,7 +357,7 @@ pub struct CaseMappingResult {
 pub fn get_character_case_mapping(character: String) -> CaseMappingResult {
     let casemapper = CaseMapper::new();
     let langid = LanguageIdentifier::try_from_str("und").expect("Failed to parse 'und' as a language identifier");
-    
+
     let mut chars = character.chars();
     let c = match chars.next() {
         Some(ch) if chars.next().is_none() => ch,
