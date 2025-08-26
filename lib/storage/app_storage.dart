@@ -67,7 +67,8 @@ class AppStorage {
       if (savedCharacters != null) {
         final decoded = jsonDecode(savedCharacters) as List<dynamic>;
         characterList = decoded
-            .map((e) => (e as Map<String, dynamic>).toUnicodeCharProperties())
+            .map((e) =>
+                (e as Map<String, dynamic>).fromUnicodeCharPropertiesJson())
             .toList();
       }
       return characterList;
@@ -106,7 +107,7 @@ class AppStorage {
       final decoded = jsonDecode(encoded) as List;
       final characters = decoded
           .map((item) =>
-              (item as Map<String, dynamic>).toUnicodeCharProperties())
+              (item as Map<String, dynamic>).fromUnicodeCharPropertiesJson())
           .toList();
 
       return characters.take(5).toList();
