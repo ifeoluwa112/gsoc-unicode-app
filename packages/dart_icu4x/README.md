@@ -103,7 +103,7 @@ List<UnicodeCharProperties> results = getUnicodeCharProperties(
 
 ### Prerequisites
 - Flutter SDK (>=3.3.0)
-- Dart SDK (^3.8.1)
+- Dart SDK (>=3.4.0 <4.0.0)
 - Rust toolchain (for development)
 - Platform-specific build tools (Android NDK, Xcode, etc.)
 
