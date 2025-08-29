@@ -116,7 +116,13 @@ void main() {
     });
 
     testWidgets('displays recently viewed section', (tester) async {
-      await tester.pumpWidget(createTestApp());
+      // The "Recently Viewed" section only appears when there are recently
+      // viewed characters
+      final recentCharacter = createTestCharacter();
+      await tester.pumpWidget(createTestApp(
+        recentState:
+            AllRecentCharactersState.loaded(characters: [recentCharacter]),
+      ));
 
       expect(find.text('Recently Viewed'), findsOneWidget);
     });

@@ -63,6 +63,8 @@ class _CharacterDetailScreen extends HookWidget {
         context.watch<SavedCharactersCubit>().state.characters;
     final savedCharacter = useState<bool>(savedCharacters.contains(character));
     final mappedCharacter = useState<String?>(null);
+    final plane = character.plane ?? '';
+    final planeResult = plane.replaceAll(RegExp(r'\s*\[\d+\]$'), '');
 
     useEffect(
       () {
@@ -141,23 +143,45 @@ class _CharacterDetailScreen extends HookWidget {
                 children: [
                   InformationTile(
                     detail: locale.name,
-                    info: character.name ?? '',
+                    info: character.name?.trim() ?? '',
+                    style: UnicodeHelper.getFontStylesForScript(
+                            character.script ?? '')
+                        .last,
                   ),
                   InformationTile(
                     detail: locale.codePoint,
                     info: character.unicodeValue ?? '',
+                    style: UnicodeHelper.getFontStylesForScript(
+                            character.script ?? '')
+                        .last,
                   ),
                   InformationTile(
                     detail: locale.block,
                     info: character.block ?? '',
+                    style: UnicodeHelper.getFontStylesForScript(
+                            character.script ?? '')
+                        .last,
                   ),
                   InformationTile(
                     detail: locale.plane,
-                    info: character.plane ?? '',
+                    info: planeResult,
+                    style: UnicodeHelper.getFontStylesForScript(
+                            character.script ?? '')
+                        .last,
+                  ),
+                  InformationTile(
+                    detail: locale.script,
+                    info: character.script ?? '',
+                    style: UnicodeHelper.getFontStylesForScript(
+                            character.script ?? '')
+                        .last,
                   ),
                   InformationTile(
                     detail: locale.category,
                     info: character.generalCategory ?? '',
+                    style: UnicodeHelper.getFontStylesForScript(
+                            character.script ?? '')
+                        .last,
                     lastItem: true,
                   ),
                 ],
@@ -182,18 +206,31 @@ class _CharacterDetailScreen extends HookWidget {
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  InformationTile(
-                    detail: 'Font',
-                    info:
-                        '''${character.character}${mappedCharacter.value != null ? ' → ${mappedCharacter.value}' : ''}''',
-                    isFontText: true,
-                    lastItem: true,
-                  ),
-                ],
+                children:
+                    UnicodeHelper.getFontStylesForScript(character.script ?? '')
+                        .map(
+                  (style) {
+                    final index = UnicodeHelper.getFontStylesForScript(
+                      character.script ?? '',
+                    ).indexOf(style);
+                    return InformationTile(
+                      detail: style.fontFamily?.split('_').toList().first ??
+                          'System Default',
+                      style: style,
+                      script: character.script ?? '',
+                      info:
+                          '''${character.character}${mappedCharacter.value != null ? ' → ${mappedCharacter.value}' : ''}''',
+                      isFontText: true,
+                      lastItem: (index + 1) ==
+                          UnicodeHelper.getFontStylesForScript(
+                            character.script ?? '',
+                          ).length,
+                    );
+                  },
+                ).toList(),
               ),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 50),
           ],
         ),
       ),

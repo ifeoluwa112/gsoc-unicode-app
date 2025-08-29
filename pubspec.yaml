@@ -30,10 +30,14 @@ dependencies:
   freezed_annotation: ^2.4.1
   get_it: ^8.0.0
   gif: ^2.3.0
-  google_fonts: ^6.2.1
+  google_fonts: ^6.3.0
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   http: ^1.2.1
+  # icu:
+  #   git:
+  #     url: git@github.com:unicode-org/icu4x.git
+  #     path: ffi/dart
   json_annotation: ^4.8.1
   lottie: ^3.1.2
   multi_dropdown: ^3.0.1
@@ -64,5 +68,14 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
-  assets:
-    - assets/unicode_dummy_data.csv
+
+  fonts:
+  - family: Sunuwar
+    fonts:
+      - asset: assets/fonts/Sunuwar/NotoSansSunuwar-Regular.ttf
+        weight: 100
+
+  - family: Todhri
+    fonts:
+      - asset: assets/fonts/Todhri/NotoSerifTodhri-Regular.ttf
+        weight: 100    

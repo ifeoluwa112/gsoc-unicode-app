@@ -205,6 +205,7 @@ See the `example/` directory for a complete Flutter application demonstrating:
 - `icu_collections` - Data structures
 - `icu_properties` - Unicode properties
 - `flutter_rust_bridge` - Flutter-Rust integration
+- `unicode_names2` - ICU4X character names gotten from https://www.unicode.org/Public/16.0.0/ucd/NamesList.txt
 
 ### Dart Dependencies
 - `flutter_rust_bridge` - Runtime bridge support

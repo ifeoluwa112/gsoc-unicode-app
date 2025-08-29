@@ -291,6 +291,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Characters'**
   String get characters;
+
+  /// No description provided for @script.
+  ///
+  /// In en, this message translates to:
+  /// **'Script'**
+  String get script;
+
+  /// No description provided for @noSavedCharacters.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved characters'**
+  String get noSavedCharacters;
 }
 
 class _AppLocalizationsDelegate

@@ -1,5 +1,4 @@
 // dart format width=80
-
 /// GENERATED CODE - DO NOT MODIFY BY HAND
 /// *****************************************************
 ///  FlutterGen
@@ -9,11 +8,12 @@
 // ignore_for_file: type=lint
 // ignore_for_file: deprecated_member_use,directives_ordering,implicit_dynamic_list_literal,unnecessary_import
 
-class Assets {
-  const Assets._();
+class FontFamily {
+  FontFamily._();
 
-  static const String unicodeDummyData = 'assets/unicode_dummy_data.csv';
+  /// Font family: Sunuwar
+  static const String sunuwar = 'Sunuwar';
 
-  /// List of all assets
-  static List<String> get values => [unicodeDummyData];
+  /// Font family: Todhri
+  static const String todhri = 'Todhri';
 }

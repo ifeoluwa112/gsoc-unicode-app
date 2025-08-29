@@ -32,5 +32,7 @@
   "renderingPreview": "Rendering Preview",
   "recentlyViewed": "Recently Viewed",
   "allCharacters": "All Characters",
-  "characters": "Characters"
+  "characters": "Characters",
+  "script": "Script",
+  "noSavedCharacters": "No saved characters"
 }

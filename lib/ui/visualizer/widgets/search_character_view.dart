@@ -32,8 +32,9 @@ class CharacterView extends HookWidget {
           onTap: () =>
               context.router.pushWidget(CharacterDetailScreen(character: char)),
           character: char.character,
+          script: char.script ?? '',
           isSelected: isSelected,
-          characterName: char.name ?? '',
+          characterName: char.name?.trim() ?? '',
           codePoint: char.unicodeValue ?? '',
         );
       }).toList(),
