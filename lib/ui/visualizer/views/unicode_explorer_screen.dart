@@ -79,30 +79,32 @@ class UnicodeExplorerScreen extends HookWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      locale.recentlyViewed,
-                      style: GoogleFonts.notoSans(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                    if (recentlyViewedCharacters.isNotEmpty) ...[
+                      Text(
+                        locale.recentlyViewed,
+                        style: GoogleFonts.notoSans(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 38),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        spacing: 16,
-                        children: recentlyViewedCharacters.map((char) {
-                          return RecentTextBox(
-                            onTap: () => context.router.pushWidget(
-                              CharacterDetailScreen(character: char),
-                            ),
-                            character: char,
-                          );
-                        }).toList(),
+                      const SizedBox(height: 38),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          spacing: 16,
+                          children: recentlyViewedCharacters.map((char) {
+                            return RecentTextBox(
+                              onTap: () => context.router.pushWidget(
+                                CharacterDetailScreen(character: char),
+                              ),
+                              character: char,
+                            );
+                          }).toList(),
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 40),
+                      const SizedBox(height: 40),
+                    ],
                     Text(
                       locale.allCharacters,
                       style: GoogleFonts.notoSans(

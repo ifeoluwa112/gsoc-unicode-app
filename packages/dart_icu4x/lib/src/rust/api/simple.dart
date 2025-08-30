@@ -9,6 +9,16 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 // These functions are ignored because they are not marked as `pub`: `get_alphabetic`, `get_bidi_class`, `get_dash`, `get_diacritic`, `get_east_asian_width`, `get_emoji_modifier_base`, `get_emoji_modifier`, `get_emoji_presentation`, `get_emoji`, `get_general_category`, `get_grapheme_break`, `get_hangul`, `get_joining`, `get_line_break`, `get_lowercase`, `get_math`, `get_plane_name`, `get_script`, `get_sentence_break`, `get_uppercase`, `get_white_space`, `get_word_break`, `map_to_properties`, `matches_search`, `safe_name`
 // These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `ScriptCharactersResult`
 
+Future<String> safeNameByCodePoint({required int codePoint}) =>
+    RustLib.instance.api
+        .crateApiSimpleSafeNameByCodePoint(codePoint: codePoint);
+
+/// Get the character name for a specific code point, ensuring it never returns "None".
+/// This function provides a more descriptive name for characters that don't have official Unicode names.
+String getCharacterNameByCodePoint({required int codePoint}) =>
+    RustLib.instance.api
+        .crateApiSimpleGetCharacterNameByCodePoint(codePoint: codePoint);
+
 /// Return a page of Unicode character properties filtered by an optional query.
 ///
 /// - `search`: optional lowercased substring to match against multiple fields.

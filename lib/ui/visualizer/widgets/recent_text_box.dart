@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dart_icu4x/dart_icu4x.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -34,13 +35,16 @@ class RecentTextBox extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
+            AutoSizeText(
               character.character,
-              style: GoogleFonts.notoSans(color: Colors.black, fontSize: 80),
+              minFontSize: 60,
+              maxFontSize: 80,
+              style: GoogleFonts.notoSans(color: Colors.black),
             ),
-            Text(
+            AutoSizeText(
+              maxFontSize: 16,
               character.unicodeValue ?? '',
-              style: GoogleFonts.notoSans(color: Colors.black, fontSize: 16),
+              style: GoogleFonts.notoSans(color: Colors.black),
             ),
           ],
         ),

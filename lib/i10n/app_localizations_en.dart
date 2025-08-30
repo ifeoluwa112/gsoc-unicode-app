@@ -106,4 +106,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get characters => 'Characters';
+
+  @override
+  String get script => 'Script';
+
+  @override
+  String get noSavedCharacters => 'No saved characters';
 }

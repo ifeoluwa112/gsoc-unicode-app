@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:gsoc_unicode_app/app/app_theme.dart';
 
 /// A widget that displays a labeled piece of information
@@ -8,14 +7,19 @@ class InformationTile extends StatelessWidget {
   /// Creates an [InformationTile].
   const InformationTile({
     required this.detail,
+    required this.style,
     required this.info,
     this.lastItem = false,
     this.isFontText = false,
+    this.script = '',
     super.key,
   });
 
-  /// Character detail label.
+  /// Information tile detail
   final String detail;
+
+  /// Text style
+  final TextStyle style;
 
   /// Character information value.
   final String info;
@@ -25,6 +29,9 @@ class InformationTile extends StatelessWidget {
 
   /// Whether to use font styling for the info text.
   final bool isFontText;
+
+  /// Character script name
+  final String script;
 
   @override
   Widget build(BuildContext context) {
@@ -39,21 +46,23 @@ class InformationTile extends StatelessWidget {
         ),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            detail,
-            style: GoogleFonts.notoSans(fontSize: 14, color: Colors.black),
+          Flexible(
+            child: Text(
+              detail,
+              style: style.copyWith(fontSize: 14),
+            ),
           ),
           const SizedBox(width: 20),
           Expanded(
             child: Text(
-              info,
+              info.trim(),
               softWrap: true,
               overflow: TextOverflow.visible,
-              style: GoogleFonts.notoSans(
+              style: style.copyWith(
                 fontSize: isFontText ? 49 : 16,
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
               ),
               textAlign: TextAlign.right,
             ),

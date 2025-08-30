@@ -224,6 +224,72 @@ fn safe_name(c: char) -> String {
     name(c).map(|n| n.to_string()).unwrap_or_else(|| "UNKNOWN".to_string())
 }
 
+pub fn safe_name_by_code_point(code_point: u32) -> String {
+    get_character_name_by_code_point(code_point)
+}
+
+#[flutter_rust_bridge::frb(sync)]
+/// Get the character name for a specific code point, ensuring it never returns "None".
+/// This function provides a more descriptive name for characters that don't have official Unicode names.
+pub fn get_character_name_by_code_point(code_point: u32) -> String {
+    // First try to get the official Unicode name
+    if let Some(c) = char::from_u32(code_point) {
+        if let Some(name) = unicode_names2::name(c) {
+            return name.to_string();
+        }
+    }
+    
+    // If no official name exists, provide descriptive fallbacks
+    match code_point {
+        // Control characters
+        0x0000 => "NULL".to_string(),
+        0x0001 => "START OF HEADING".to_string(),
+        0x0002 => "START OF TEXT".to_string(),
+        0x0003 => "END OF TEXT".to_string(),
+        0x0004 => "END OF TRANSMISSION".to_string(),
+        0x0005 => "ENQUIRY".to_string(),
+        0x0006 => "ACKNOWLEDGE".to_string(),
+        0x0007 => "BELL".to_string(),
+        0x0008 => "BACKSPACE".to_string(),
+        0x0009 => "CHARACTER TABULATION".to_string(),
+        0x000A => "LINE FEED".to_string(),
+        0x000B => "LINE TABULATION".to_string(),
+        0x000C => "FORM FEED".to_string(),
+        0x000D => "CARRIAGE RETURN".to_string(),
+        0x000E => "SHIFT OUT".to_string(),
+        0x000F => "SHIFT IN".to_string(),
+        0x0010 => "DATA LINK ESCAPE".to_string(),
+        0x0011 => "DEVICE CONTROL ONE".to_string(),
+        0x0012 => "DEVICE CONTROL TWO".to_string(),
+        0x0013 => "DEVICE CONTROL THREE".to_string(),
+        0x0014 => "DEVICE CONTROL FOUR".to_string(),
+        0x0015 => "NEGATIVE ACKNOWLEDGE".to_string(),
+        0x0016 => "SYNCHRONOUS IDLE".to_string(),
+        0x0017 => "END OF TRANSMISSION BLOCK".to_string(),
+        0x0018 => "CANCEL".to_string(),
+        0x0019 => "END OF MEDIUM".to_string(),
+        0x001A => "SUBSTITUTE".to_string(),
+        0x001B => "ESCAPE".to_string(),
+        0x001C => "INFORMATION SEPARATOR FOUR".to_string(),
+        0x001D => "INFORMATION SEPARATOR THREE".to_string(),
+        0x001E => "INFORMATION SEPARATOR TWO".to_string(),
+        0x001F => "INFORMATION SEPARATOR ONE".to_string(),
+        0x007F => "DELETE".to_string(),
+        
+        // Non-characters
+        0xFFFE => "BYTE ORDER MARK".to_string(),
+        0xFFFF => "NON-CHARACTER".to_string(),
+        
+        // Private Use Areas
+        _ if (0xE000..=0xF8FF).contains(&code_point) => "PRIVATE USE CHARACTER".to_string(),
+        _ if (0xF0000..=0xFFFFF).contains(&code_point) => "PRIVATE USE CHARACTER".to_string(),
+        _ if (0x100000..=0x10FFFF).contains(&code_point) => "PRIVATE USE CHARACTER".to_string(),
+        
+        // Unassigned code points
+        _ => format!("UNASSIGNED CODE POINT U+{:04X}", code_point),
+    }
+}
+
 /// Check if a character matches an optional search string.
 ///
 /// The search is performed across several derived fields (char, code point,
@@ -259,7 +325,7 @@ fn map_to_properties(c: char) -> UnicodeCharProperties {
     UnicodeCharProperties {
         character: c.to_string(),
         code_point: c as u32,
-        name: Some(safe_name(c)),
+        name: Some(safe_name_by_code_point(c as u32)),
         unicode_value: Some(format!("U+{:04X}", c as u32)),
         block: Some(find_unicode_block(c).map(|b| b.name()).unwrap_or("UNKNOWN").to_string()),
         plane: Some(get_plane_name(c as u32).to_string()),

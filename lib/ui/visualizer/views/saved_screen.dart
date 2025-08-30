@@ -53,7 +53,8 @@ class SavedScreen extends StatelessWidget {
                       ...savedCharacters.map((char) {
                         return CharacterTile(
                           character: char.character,
-                          characterName: char.character,
+                          characterName: char.name ?? '',
+                          script: char.script ?? '',
                           codePoint: char.unicodeValue ?? '',
                           onTap: () => context.router.pushWidget(
                             CharacterDetailScreen(character: char),
@@ -65,7 +66,7 @@ class SavedScreen extends StatelessWidget {
                         height: MediaQuery.of(context).size.height * 0.6,
                         child: Center(
                           child: Text(
-                            'No saved characters',
+                            context.appLocalizations.noSavedCharacters,
                             textAlign: TextAlign.center,
                             maxLines: 3,
                             style: GoogleFonts.notoSans(

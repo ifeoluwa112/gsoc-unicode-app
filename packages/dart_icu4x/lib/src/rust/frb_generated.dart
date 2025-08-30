@@ -70,7 +70,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -1308990576;
+  int get rustContentHash => 2010627114;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -84,12 +84,16 @@ abstract class RustLibApi extends BaseApi {
   CaseMappingResult crateApiSimpleGetCharacterCaseMapping(
       {required String character});
 
+  String crateApiSimpleGetCharacterNameByCodePoint({required int codePoint});
+
   String crateApiSimpleGetScriptForChar({required String ch});
 
   List<UnicodeCharProperties> crateApiSimpleGetUnicodeCharProperties(
       {String? search, required BigInt offset, required BigInt limit});
 
   Future<void> crateApiSimpleInitApp();
+
+  Future<String> crateApiSimpleSafeNameByCodePoint({required int codePoint});
 }
 
 class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
@@ -126,12 +130,36 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  String crateApiSimpleGetCharacterNameByCodePoint({required int codePoint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_u_32(codePoint, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 2)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_String,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiSimpleGetCharacterNameByCodePointConstMeta,
+      argValues: [codePoint],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiSimpleGetCharacterNameByCodePointConstMeta =>
+      const TaskConstMeta(
+        debugName: "get_character_name_by_code_point",
+        argNames: ["codePoint"],
+      );
+
+  @override
   String crateApiSimpleGetScriptForChar({required String ch}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Char(ch, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 2)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 3)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -158,7 +186,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_opt_String(search, serializer);
         sse_encode_usize(offset, serializer);
         sse_encode_usize(limit, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 3)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 4)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_list_unicode_char_properties,
@@ -182,7 +210,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 4, port: port_);
+            funcId: 5, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -197,6 +225,31 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kCrateApiSimpleInitAppConstMeta => const TaskConstMeta(
         debugName: "init_app",
         argNames: [],
+      );
+
+  @override
+  Future<String> crateApiSimpleSafeNameByCodePoint({required int codePoint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_u_32(codePoint, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 6, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_String,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiSimpleSafeNameByCodePointConstMeta,
+      argValues: [codePoint],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiSimpleSafeNameByCodePointConstMeta =>
+      const TaskConstMeta(
+        debugName: "safe_name_by_code_point",
+        argNames: ["codePoint"],
       );
 
   @protected
