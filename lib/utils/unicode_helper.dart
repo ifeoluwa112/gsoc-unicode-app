@@ -1,4 +1,30 @@
+/// A utility class for working with Unicode text and script-specific font
+/// styles.
 ///
+/// The [UnicodeHelper] class provides static methods to help render
+/// multilingual text with appropriate visual appearance by applying
+/// script-specific font styles.
+///
+/// ## Usage Example
+/// ```dart
+/// // Get font styles for the Arabic script
+/// List<TextStyle> styles = UnicodeHelper.getFontStylesForScript(
+///   'Arabic',
+///   fontSize: 18,
+///   color: Colors.blue,
+///   fontWeight: FontWeight.bold,
+/// );
+/// // Use the styles to display text in a Text widget
+/// Text('مرحبا', style: styles.first);
+/// ```
+///
+/// ## Key Methods
+/// - getFontStylesForScript: Returns a list of [TextStyle] objects customized
+/// for a given script.
+///
+/// This class is useful for rendering Unicode text in Flutter applications,
+/// ensuring that each script is displayed with suitable fonts and typographic
+/// properties.
 library;
 
 import 'package:flutter/material.dart';

@@ -96,9 +96,11 @@ class MultilingualTesterScreen extends HookWidget {
                 // Update the current text state for real-time UI updates
                 currentText.value = value;
 
-                if (value.isNotEmpty) {
+                if (currentText.value.trim().isNotEmpty) {
                   // Detect the Unicode script for the first character
-                  final script = getScriptForChar(ch: value.trim()[0]);
+                  final script = getScriptForChar(
+                    ch: currentText.value.trim()[0],
+                  );
                   scriptName.value = script;
                   isScriptDetected.value = script.isNotEmpty;
 

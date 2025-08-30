@@ -57,7 +57,7 @@ class InformationTile extends StatelessWidget {
           const SizedBox(width: 20),
           Expanded(
             child: Text(
-              info,
+              info.trim(),
               softWrap: true,
               overflow: TextOverflow.visible,
               style: style.copyWith(

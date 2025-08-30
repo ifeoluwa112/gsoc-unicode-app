@@ -143,7 +143,7 @@ class _CharacterDetailScreen extends HookWidget {
                 children: [
                   InformationTile(
                     detail: locale.name,
-                    info: character.name?.trim() ?? '',
+                    info: character.name ?? '',
                     style: UnicodeHelper.getFontStylesForScript(
                             character.script ?? '')
                         .last,

@@ -104,7 +104,7 @@ void main() {
       // Check that font box displays proper information
       expect(find.text('System Default'), findsOneWidget);
       // The System Default font box is selected by default, so it should show
-      //a checkmark
+      // a checkmark
       expect(find.byIcon(Icons.check), findsOneWidget);
     });
 
@@ -113,11 +113,9 @@ void main() {
 
       // Initially no preview text is shown until user types something
       // The "Rendering Preview" section only appears when there's text input
+      // TODO(Precious): Add an integration test to verify text input and script
+      // detection when the Rust library is initialized.
       expect(find.text('Rendering Preview'), findsNothing);
-
-      // Note: We can't test text input with script detection in unit tests
-      // because the Rust library isn't initialized. This test verifies the
-      // initial state where no preview is shown.
     });
   });
 }

@@ -1,3 +1,6 @@
+// This test is disabeld for now because it fails due to the inability to mock
+// Hive. Once we're able to mock Hive for storage test, it would be enabled back
+
 // import 'package:dart_icu4x/dart_icu4x.dart';
 // import 'package:flutter_test/flutter_test.dart';
 // import 'package:gsoc_unicode_app/features/features.dart';
