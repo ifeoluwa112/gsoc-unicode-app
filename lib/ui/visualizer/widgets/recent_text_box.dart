@@ -3,6 +3,7 @@ import 'package:dart_icu4x/dart_icu4x.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gsoc_unicode_app/app/app_theme.dart';
+import 'package:gsoc_unicode_app/utils/utils.dart';
 
 /// A widget that displays a recent text box with a character and code point.
 class RecentTextBox extends StatelessWidget {
@@ -22,6 +23,8 @@ class RecentTextBox extends StatelessWidget {
   /// Builds the widget tree for the recent text box.
   @override
   Widget build(BuildContext context) {
+    // Determine if the character is a control character.
+    final isControl = character.isControl;
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -36,7 +39,7 @@ class RecentTextBox extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             AutoSizeText(
-              character.character,
+              !isControl ? character.character : '',
               minFontSize: 60,
               maxFontSize: 80,
               style: GoogleFonts.notoSans(color: Colors.black),

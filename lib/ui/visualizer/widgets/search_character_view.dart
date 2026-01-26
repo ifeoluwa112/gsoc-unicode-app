@@ -25,15 +25,13 @@ class CharacterView extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final selectedCharacter = useState<String?>(null);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: characters.map((char) {
-        final codePoint = int.tryParse(
-            char.unicodeValue?.replaceFirst('U+', '') ?? '',
-            radix: 16);
-        final isControl =
-            (codePoint != null && controlCodepoints.contains(codePoint)) ||
-                (char.name?.trim().contains('UNASSIGNED CODE POINT') ?? false);
+    return ListView.builder(
+      controller: controller,
+      shrinkWrap: true,
+      itemCount: characters.length,
+      itemBuilder: (context, index) {
+        final char = characters[index];
+        final isControl = char.isControl;
         final displayableCharacter = isControl ? '' : char.character;
         final isSelected = selectedCharacter.value == char.character;
 
@@ -47,7 +45,7 @@ class CharacterView extends HookWidget {
           characterName: char.name?.trim() ?? '',
           codePoint: char.unicodeValue ?? '',
         );
-      }).toList(),
+      },
     );
   }
 }

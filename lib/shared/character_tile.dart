@@ -132,6 +132,10 @@ class CharacterTile extends HookWidget {
   /// highlighting the currently active character.
   final bool isSelected;
 
+  /// Whether this character is a control character.
+  ///
+  /// Control characters are special non-printing characters that have specific
+  /// functions in text processing, such as newline, tab, or bell characters.
   final bool isControlCharacter;
 
   @override

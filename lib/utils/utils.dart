@@ -51,7 +51,7 @@ export 'consts.dart';
 /// Provides convenient access to theme and padding values from
 /// BuildContext. Includes extensions for accessing text themes,
 /// safe area padding, and other context-dependent values.
-export 'context_extension.dart';
+export 'extensions.dart';
 /// Export for debouncing utility.
 ///
 /// A utility class for debouncing function calls, useful for

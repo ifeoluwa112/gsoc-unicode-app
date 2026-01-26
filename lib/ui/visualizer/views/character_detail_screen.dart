@@ -65,7 +65,7 @@ class _CharacterDetailScreen extends HookWidget {
     final mappedCharacter = useState<String?>(null);
     final plane = character.plane ?? '';
     final planeResult = plane.replaceAll(RegExp(r'\s*\[\d+\]$'), '');
-
+    final isControl = character.isControl;
     useEffect(
       () {
         context.read<SavedCharactersCubit>().getSavedCharacters();
@@ -114,7 +114,7 @@ class _CharacterDetailScreen extends HookWidget {
             ),
           ),
         ],
-        title: character.character,
+        title: !isControl ? character.character : '',
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -188,48 +188,56 @@ class _CharacterDetailScreen extends HookWidget {
               ),
             ),
             const SizedBox(height: 24),
-            Text(
-              locale.fontRendering,
-              style: GoogleFonts.notoSans(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 16),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppTheme.whiteShade),
-              ),
-              child: Column(
+            if (!isControl)
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children:
-                    UnicodeHelper.getFontStylesForScript(character.script ?? '')
-                        .map(
-                  (style) {
-                    final index = UnicodeHelper.getFontStylesForScript(
-                      character.script ?? '',
-                    ).indexOf(style);
-                    return InformationTile(
-                      detail: style.fontFamily?.split('_').toList().first ??
-                          'System Default',
-                      style: style,
-                      script: character.script ?? '',
-                      info:
-                          '''${character.character}${mappedCharacter.value != null ? ' → ${mappedCharacter.value}' : ''}''',
-                      isFontText: true,
-                      lastItem: (index + 1) ==
-                          UnicodeHelper.getFontStylesForScript(
+                children: [
+                  Text(
+                    locale.fontRendering,
+                    style: GoogleFonts.notoSans(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 9, horizontal: 16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: AppTheme.whiteShade),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: UnicodeHelper.getFontStylesForScript(
+                              character.script ?? '')
+                          .map(
+                        (style) {
+                          final index = UnicodeHelper.getFontStylesForScript(
                             character.script ?? '',
-                          ).length,
-                    );
-                  },
-                ).toList(),
+                          ).indexOf(style);
+                          return InformationTile(
+                            detail:
+                                style.fontFamily?.split('_').toList().first ??
+                                    'System Default',
+                            style: style,
+                            script: character.script ?? '',
+                            info:
+                                '''${character.character}${mappedCharacter.value != null ? ' → ${mappedCharacter.value}' : ''}''',
+                            isFontText: true,
+                            lastItem: (index + 1) ==
+                                UnicodeHelper.getFontStylesForScript(
+                                  character.script ?? '',
+                                ).length,
+                          );
+                        },
+                      ).toList(),
+                    ),
+                  ),
+                ],
               ),
-            ),
             const SizedBox(height: 50),
           ],
         ),

@@ -32,7 +32,7 @@ library;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:gsoc_unicode_app/app/app_theme.dart';
-import 'package:gsoc_unicode_app/utils/context_extension.dart';
+import 'package:gsoc_unicode_app/utils/extensions.dart';
 
 /// A custom app bar with flexible configuration for title, actions, and
 /// visuals.
