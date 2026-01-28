@@ -6,8 +6,10 @@ library;
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gsoc_unicode_app/app/app_theme.dart';
+import 'package:gsoc_unicode_app/features/features.dart';
 import 'package:gsoc_unicode_app/ui/ui.dart';
 import 'package:gsoc_unicode_app/utils/localization_extensions.dart';
 
@@ -17,7 +19,7 @@ import 'package:gsoc_unicode_app/utils/localization_extensions.dart';
 @RoutePage()
 class BaseScreen extends StatelessWidget {
   /// Creates a [BaseScreen] with an optional initial tab index.
-  const BaseScreen({super.key, this.index});
+  const BaseScreen({super.key,  @PathParam('index') this.index});
 
   /// The initial tab index for the bottom navigation bar.
   final int? index;
@@ -54,6 +56,12 @@ class __BaseScreenState extends State<_BaseScreen> {
       const SavedScreen(),
     ];
 
+    useEffect(() {
+      // Initialize the current tab index
+      context.read<HomeScrollCubit>().updateCurrentTabIndex(currentIndex.value);
+      return null;
+    }, [currentIndex.value]);
+
     return SafeAreaWrapper(
       child: ValueListenableBuilder<int>(
         valueListenable: currentIndex,
@@ -78,6 +86,7 @@ class __BaseScreenState extends State<_BaseScreen> {
               unselectedItemColor: Colors.grey,
               onTap: (value) {
                 currentIndex.value = value;
+                context.read<HomeScrollCubit>().updateCurrentTabIndex(value);
               },
               items: [
                 BottomNavigationBarItem(
