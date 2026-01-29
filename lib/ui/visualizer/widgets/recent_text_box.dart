@@ -39,9 +39,9 @@ class RecentTextBox extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             AutoSizeText(
-              !isControl ? character.character : '',
-              minFontSize: 60,
-              maxFontSize: 80,
+              !isControl ? character.character : character.name ?? '',
+              minFontSize: !isControl ? 60 : 10,
+              maxFontSize: !isControl ? 80 : 16,
               style: GoogleFonts.notoSans(color: Colors.black),
             ),
             AutoSizeText(
