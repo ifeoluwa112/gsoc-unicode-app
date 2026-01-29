@@ -47,9 +47,6 @@ const Set<int> controlCodepoints = {
   0x001E,
   0x001F,
 
-  // SPACE character (not a control character)
-  0x0020,
-
   // C1 Controls (U+007F to U+009F)
   0x007F,
   0x0080,
@@ -87,4 +84,19 @@ const Set<int> controlCodepoints = {
 
   // No-break space (not a control character)
   0x00A0,
+};
+
+/// A set of Unicode codepoints that represent characters which should not be 
+/// displayed or processed.
+///
+/// This constant contains integer values corresponding to Unicode codepoints 
+/// that are considered having no character representation, such as 
+/// space characters or other invisible characters.
+const Set<int> noCharacterCodepoints = {
+  // SPACE character
+  0x0020,
+  // EM QUAD
+  0x2001,
+  // EM SPACE
+  0x2003,
 };

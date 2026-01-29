@@ -29,6 +29,7 @@ class RecentTextBox extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: 112,
+        height: 140,
         padding: const EdgeInsets.all(11),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
@@ -42,7 +43,12 @@ class RecentTextBox extends StatelessWidget {
               !isControl ? character.character : character.name ?? '',
               minFontSize: !isControl ? 60 : 10,
               maxFontSize: !isControl ? 80 : 16,
-              style: GoogleFonts.notoSans(color: Colors.black),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.notoSans(
+                  color: Colors.black,
+                  fontWeight: !isControl ? FontWeight.normal : FontWeight.bold),
             ),
             AutoSizeText(
               maxFontSize: 16,

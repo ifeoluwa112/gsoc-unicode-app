@@ -113,7 +113,7 @@ extension ThemeContextExtension on BuildContext {
 }
 
 /// Extensions for UnicodeCharProperties to add utility methods.
-/// 
+///
 /// An extension on [UnicodeCharProperties] that provides additional
 /// functionality related to Unicode character properties.
 ///
@@ -133,7 +133,8 @@ extension UnicodeCharPropertiesExtension on UnicodeCharProperties {
     final codePoint = unicodeValue != null
         ? int.tryParse(unicodeValue!.replaceFirst('U+', ''), radix: 16)
         : null;
-    return (codePoint != null && controlCodepoints.contains(codePoint)) ||
+    return (codePoint != null && controlCodepoints.contains(codePoint) ||
+            noCharacterCodepoints.contains(codePoint)) ||
         (name?.trim().contains('UNASSIGNED CODE POINT') ?? false);
   }
 }

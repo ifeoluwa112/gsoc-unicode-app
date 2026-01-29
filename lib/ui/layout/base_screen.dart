@@ -75,7 +75,9 @@ class BaseScreen extends HookWidget {
               unselectedItemColor: Colors.grey,
               onTap: (value) {
                 currentIndex.value = value;
-                context.read<HomeScrollCubit>().updateCurrentTabIndex(value);
+                context
+                  .read<HomeScrollCubit>()
+                  .updateCurrentTabIndex(value);
               },
               items: [
                 BottomNavigationBarItem(
