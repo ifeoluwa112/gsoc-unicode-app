@@ -65,7 +65,7 @@ class _CharacterDetailScreen extends HookWidget {
     final mappedCharacter = useState<String?>(null);
     final plane = character.plane ?? '';
     final planeResult = plane.replaceAll(RegExp(r'\s*\[\d+\]$'), '');
-    final isControl = character.isControl;
+    final isControl = character.isControl || character.privateUseControl;
     useEffect(
       () {
         context.read<SavedCharactersCubit>().getSavedCharacters();
@@ -114,6 +114,7 @@ class _CharacterDetailScreen extends HookWidget {
             ),
           ),
         ],
+        script: character.script,
         title: !isControl ? character.character : '',
       ),
       body: SingleChildScrollView(

@@ -75,9 +75,8 @@ class HomeScreen extends HookWidget {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: SingleChildScrollView(
-              // Optional for smaller devices
-              physics:
-                  const BouncingScrollPhysics(), // Only scrolls when required
+              controller: scrollController, // Add this to attach the controller
+              physics: const BouncingScrollPhysics(),
               child: ConstrainedBox(
                 constraints: BoxConstraints(maxHeight: constraints.maxHeight),
                 child: IntrinsicHeight(

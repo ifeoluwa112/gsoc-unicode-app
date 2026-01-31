@@ -86,11 +86,11 @@ const Set<int> controlCodepoints = {
   0x00A0,
 };
 
-/// A set of Unicode codepoints that represent characters which should not be 
+/// A set of Unicode codepoints that represent characters which should not be
 /// displayed or processed.
 ///
-/// This constant contains integer values corresponding to Unicode codepoints 
-/// that are considered having no character representation, such as 
+/// This constant contains integer values corresponding to Unicode codepoints
+/// that are considered having no character representation, such as
 /// space characters or other invisible characters.
 const Set<int> noCharacterCodepoints = {
   // SPACE character
@@ -99,4 +99,16 @@ const Set<int> noCharacterCodepoints = {
   0x2001,
   // EM SPACE
   0x2003,
+};
+
+
+/// A set of Unicode code points reserved for private use.
+/// 
+/// These code points are designated by the Unicode Standard for private use
+/// and are not assigned to any specific characters. Applications can use these
+/// code points for implementation-specific purposes.
+Set<int> privateUse = {
+  /// Private Use Area (PUA) range
+  // Private Use Area (PUA) range (U+E000 to U+10FFFF)
+  for (int i = 0xE000; i <= 0x10FFFF; i++) i,
 };

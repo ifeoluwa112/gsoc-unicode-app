@@ -137,4 +137,15 @@ extension UnicodeCharPropertiesExtension on UnicodeCharProperties {
             noCharacterCodepoints.contains(codePoint)) ||
         (name?.trim().contains('UNASSIGNED CODE POINT') ?? false);
   }
+
+  /// Returns whether this character is in the Private Use Control category.
+  ///
+  /// Private Use Control characters are special control characters reserved for
+  /// private use and are not standardized by Unicode.
+  bool get privateUseControl {
+    final codePoint = unicodeValue != null
+        ? int.tryParse(unicodeValue!.replaceFirst('U+', ''), radix: 16)
+        : null;
+    return codePoint != null && privateUse.contains(codePoint);
+  }
 }
